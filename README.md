@@ -37,7 +37,7 @@ This is a nestjs app which focuses on Authentication and Authorization using JWT
 - URL: /users
 - Method: GET
 - Description: Get a list of all users.
-- Response: JSON array of todo items.
+- Response: JSON array of users.
 
 ### Get User by ID
 - URL: /users/:id
