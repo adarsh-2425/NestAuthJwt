@@ -18,10 +18,6 @@ export class UsersController {
         return this.userService.findOne(id);
     }
 
-    @Post()
-    create(@Body() userDto: UserDto): Promise<User> {
-        return this.userService.create(userDto);
-    }
 
     @Put(':id')
     update(@Body() userDto: UserDto, @Param('id') id): Promise<User> {

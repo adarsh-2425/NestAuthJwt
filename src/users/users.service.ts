@@ -16,13 +16,6 @@ export class UsersService {
     return await this.userModel.findById(id);
   }
 
-  async create(user: User): Promise<User> {
-    const newUser = new this.userModel(user);
-    // Hash the password
-    newUser.password = await this.hashPassword(newUser.password);
-    return await newUser.save();
-  }
-
   async update(id: String, user: User): Promise<User> {
     if (user.password) {
       user.password = await this.hashPassword(user.password);
