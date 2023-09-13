@@ -33,6 +33,19 @@ This is a nestjs app which focuses on Authentication and Authorization using JWT
 
 ## API Endpoints
 
+### Registration
+- URL: /auth/register
+- Method: POST
+- Description: Register a new user.
+- Request Body: JSON object with user registration details (e.g., name, email, password).
+- Response: JSON object with the registered user's details.
+### Login
+- URL: /auth/login
+- Method: POST
+- Description: Authenticate and log in a user.
+- Request Body: JSON object with user login credentials (e.g., email and password).
+- Response: JSON object with a JWT token and user details.
+
 ### Get All Users
 - URL: /users
 - Method: GET
@@ -44,12 +57,6 @@ This is a nestjs app which focuses on Authentication and Authorization using JWT
 - Method: GET
 - Description: Get a specific user by ID.
 - Response: JSON object of the user.
-### Create an User
-- URL: /users
-- Method: POST
-- Description: Create a new user.
-- Request Body: JSON object with user details.
-- Response: JSON object of the created user.
 ### Update an User
 - URL: /users/:id
 - Method: PUT
@@ -61,6 +68,13 @@ This is a nestjs app which focuses on Authentication and Authorization using JWT
 - Method: DELETE
 - Description: Delete a specific user by ID.
 - Response: JSON object with deleted user object.
+
+### Protected Dashboard
+- URL: /dashboard
+- Method: GET
+- Description: A protected route accessible only to authenticated users.
+- Authorization Header: Bearer Token (Include the JWT token obtained during login).
+- Response: Data for the dashboard.
 
 ## Contributing
 If you would like to contribute to this project, please open an issue or submit a pull request.
