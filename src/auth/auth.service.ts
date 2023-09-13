@@ -52,4 +52,16 @@ export class AuthService {
         const saltRounds = 10;
         return await bcrypt.compare(password, userPassword)
     }
+
+    // Validate User By Idy
+
+    async validateUserById(id: string): Promise<User | null> {
+        try {
+            const user = await this.userModel.findById(id);
+            return user || null;
+        } catch (error) {
+            console.error(error.message);
+            return null;
+        }
+    }
 }
