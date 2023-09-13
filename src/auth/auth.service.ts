@@ -3,7 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Login } from './interfaces/login.interface';
 import { Register } from './interfaces/register.interface';
+import { User } from 'src/users/interfaces/user.interface';
 import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 import { NotFoundException } from '@nestjs/common/exceptions';
 
 @Injectable()
@@ -19,19 +21,24 @@ export class AuthService {
       }
     
     // Login
-    async login(user: Login): Promise<String> {
-        const isUser = await this.userModel.findOne({email: user.email});
+    async login(loginUser: Login): Promise<{token: string, user: any}> {
+        const user = await this.userModel.findOne({email: loginUser.email});
         
-        if (!isUser) {
+        if (!user) {
             throw new NotFoundException('User does not exist');
         }
 
-        const isPasswordvalid = await this.decryptPassword(user.password, isUser.password);
+        const isPasswordvalid = await this.decryptPassword(loginUser.password, user.password);
         if (!isPasswordvalid) {
             throw new NotFoundException('Password is wrong');
         }
 
-        return 'Login Success'
+        // Generate JWT token
+        const token = jwt.sign({sub: user._id, username: user.name}, 'secret', {
+            expiresIn: '5h',
+        })
+
+        return {token, user: {id: user.id, name: user.name}}
     }
     
     // Function to Hash Password using bcryptjs
