@@ -6,7 +6,7 @@ import { Register } from './interfaces/register.interface';
 import { User } from 'src/users/interfaces/user.interface';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import { NotFoundException } from '@nestjs/common/exceptions';
+import { UnauthorizedException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class AuthService {
@@ -25,12 +25,12 @@ export class AuthService {
         const user = await this.userModel.findOne({email: loginUser.email});
         
         if (!user) {
-            throw new NotFoundException('User does not exist');
+            throw new UnauthorizedException('User does not exist');
         }
 
         const isPasswordvalid = await this.decryptPassword(loginUser.password, user.password);
         if (!isPasswordvalid) {
-            throw new NotFoundException('Password is wrong');
+            throw new UnauthorizedException('Password is wrong');
         }
 
         // Generate JWT token
